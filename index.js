@@ -1,12 +1,13 @@
 const venom = require('venom-bot');
-const User = require('./User');
+const User = require('./model/User');
 
 const numsPermitidos = [
     '5511941422161@c.us',
     '5511945206557@c.us',
     '5511983252522@c.us',
-    '5511999173197@c.us'
+    '5511985619621@c.us'
 ]
+//'5511999173197@c.us'
 
 let listaUsuarios = [];
 
