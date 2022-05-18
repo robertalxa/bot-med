@@ -29,13 +29,14 @@ module.exports = class MenuPrincipal {
     }
 
     resposta1(mensagem, usuario){
-        usuario.darApelido(mensagem.body.trim());
+        if(usuario.apelido === '') usuario.darApelido(mensagem.body.trim());
         if(JSON.stringify(usuario.endereco) === '{}'){
             return [[`${usuario.apelido}, para prosseguir, por favor nos envie o CEP de onde se encontra`], 2];
         }
 
-        const endereco = `O seu endereço ainda é *${endereco.rua}, ${endereco.rua}*\n? Responda com: *Sim* ou *Não*`;
-        return [[endereco], 3];
+        const endereco = usuario.endereco;
+        const textoEndereco = `O seu endereço ainda é *${endereco.rua}, ${endereco.rua}*\n? Responda com: *Sim* ou *Não*`;
+        return [[textoEndereco], 3];
     }
 
     resposta2(mensagem, usuario){
