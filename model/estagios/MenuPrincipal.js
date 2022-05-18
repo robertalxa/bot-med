@@ -24,11 +24,12 @@ module.exports = class MenuPrincipal {
         if(usuario.apelido === ''){
             return [['Oi! Diz pra mim por favor como você prefere que eu te chame'], 1];
         }
-        return [[`Olá ${usuario.apelido}!`, this.resposta1(mensagem, usuario)[0]], 1];
+        const resultadoEndereco = this[1](mensagem, usuario);
+        return [[`Olá ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
     }
 
     resposta1(mensagem, usuario){
-        usuario.apelido = mensagem.body.trim();
+        usuario.darApelido(mensagem.body.trim());
         if(JSON.stringify(usuario.endereco) === '{}'){
             return [[`${usuario.apelido}, para prosseguir, por favor nos envie o CEP de onde se encontra`], 2];
         }
@@ -62,7 +63,7 @@ module.exports = class MenuPrincipal {
         `;
         const msg = mensagem.body.toLowerCase().trim();
         if(msg === 'sim'){
-            usuario.endereco = this.enderecoTemporario;
+            usuario.setEndereco(this.enderecoTemporario);
             return [[`Endereço confirmado!\n\n${textoMenu}`], 4];
         }else if(msg === 'nao'){
             return [['Dgite novamente seu CEP.'], 2];
