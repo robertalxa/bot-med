@@ -22,16 +22,16 @@ module.exports = class MenuPrincipal {
 
     resposta(mensagem, usuario){
         if(usuario.apelido === ''){
-            return [['Oi! Diz pra mim por favor como você prefere que eu te chame'], 1];
+            return [['🤖 Olá eu sou o Remedinho 🤖\n\nMe diz por favor como você prefere que eu te chame.'], 1];
         }
         const resultadoEndereco = this[1](mensagem, usuario);
-        return [[`Olá ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
+        return [[`Olá eu sou o Remedinho 🤖\nBem vindx novamente ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
     }
 
     resposta1(mensagem, usuario){
         if(usuario.apelido === '') usuario.darApelido(mensagem.body.trim());
         if(JSON.stringify(usuario.endereco) === '{}'){
-            return [[`${usuario.apelido}, para prosseguir, por favor nos envie o CEP de onde se encontra`], 2];
+            return [[`${usuario.apelido}, para prosseguir, por favor nos *envie o CEP* de onde se encontra.\n\n_Fique tranquilo, só utilizamos essa informação para poder te mostrar quais medicamentos estão disponíveis em sua região_`], 2];
         }
 
         const endereco = usuario.endereco;
@@ -54,31 +54,32 @@ module.exports = class MenuPrincipal {
     }
 
     resposta3(mensagem, usuario){
-        const textoMenu = `
-        Escolha uma opção do menu:
-        1 - Informações sobre medicamentos
-        2 - Informações sobre documentação
-        3 - Programas (de distribuição) do governo
-        4 - Meus lembretes
-        5 - Outras questões escritas (ou audio)
-        `;
+        const textoMenu = 'Escolha uma opção do menu digitando o seu *número*:\n1️⃣ - Informações sobre medicamentos 💊\n2️⃣ - Informações sobre documentação 🪪\n3️⃣ - Programas (de distribuição) do governo ⛑️\n4️⃣ - Meus lembretes ⏰\n5️⃣ - Outras questões escritas (ou audio)\n6️⃣ - Saber mais sobre o Remedinho 🤖';
         const msg = mensagem.body.toLowerCase().trim();
         if(msg === 'sim'){
             usuario.setEndereco(this.enderecoTemporario);
             return [[`Endereço confirmado!\n\n${textoMenu}`], 4];
         }else if(msg === 'nao'){
-            return [['Dgite novamente seu CEP.'], 2];
+            return [['Por favor, digite novamente seu CEP.'], 2];
         }
 
         return [['Desculpe não entendi, responda com *Sim* ou *Não*'], 3];
     }
 
     exibeMenu(mensagem, usuario){
-        let escolha = mensagem.body.trim();
-        try{
-            escolha = parseInt(escolha);
-        }catch(ex){
-            return [['Opção inválida, envie um número de 1 a 5'], 4];
+        const numerosTranscritos = {
+            'um': 1,
+            'dois': 2,
+            'tres': 3,
+            'quatro': 4,
+            'cinco': 5,
+            'seis': 6
+        }
+        const msgEscolha = mensagem.body.trim().toLowerCase();
+        let escolha = parseInt(msgEscolha);
+        if(isNaN(escolha)){
+            escolha = numerosTranscritos[msgEscolha];
+            if(!escolha) return [['Opção inválida, envie um número de 1 a 6'], 4];
         }
 
         switch(escolha){
@@ -87,7 +88,7 @@ module.exports = class MenuPrincipal {
             case 3: return[['Opção escolhida: *Programas (de distribuição) do governo*'], 'programasGov'];
             case 4: return[['Opção escolhida: *Meus lembretes*'], 'lembretes'];
             case 5: return[['Opção escolhida: *Outras questões escritas (ou audio)*'], 'outrasQuest'];
-            default: return [['Opção inválida, envie um número de 1 a 5'], 4];
+            default: return [['Opção inválida, envie um número de 1 a 6'], 4];
         }
     }
 
