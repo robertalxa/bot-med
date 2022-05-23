@@ -37,26 +37,25 @@ module.exports = class User {
         axios
         .put(`http://localhost:3000/usuarios/${this._id}`, this)
         .then(res => {
-            console.log(res);
+            
         })
         .catch(error => {
             console.error(error);
         });
     }
 
-    responder(mensagem = {}) {
-        let[respostas, progredir] = this.estagio.responde(mensagem, this);
+    responder(mensagem = {}, venomInstance) {
+        //Criar aqui um timer aqui que caso fique 20 minutos sem responder, encerrar a comunicação
+        let[respostas, progredir] = this.estagio.responde(mensagem, this, venomInstance);
         if(typeof progredir === 'string') {
             //Trocando a pessoa de estágio
-            this.estagio = new require(`./estagios/${progredir}`);
-            this.responder(mensagem);
+            const novoEstagio = require(`./estagios/${progredir}`)
+            this.estagio = new novoEstagio();
+            [respostas, progredir] = this.estagio.responde(mensagem, this, venomInstance);
         }
-        else this.estagio.progresso = progredir;
+        
+        this.estagio.progresso = progredir;
         return respostas;
-    }
-
-    logar(){
-        console.log('entrou no logar');
     }
 
 }

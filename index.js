@@ -37,11 +37,18 @@ function iniciaInteracao(clientInstance){
     });
 }
 
-function responder(clientInstance, mensagem, usuario){
-    const respostas = usuario.responder(mensagem);
+async function responder(clientInstance, mensagem, usuario){
+    const respostas = usuario.responder(mensagem, clientInstance);
     for(resposta of respostas){
-        clientInstance.sendText(usuario.telefone, resposta);
+        await clientInstance.sendText(usuario.telefone, resposta);
     }
+    
+    /*let timeBetween = 1000;
+    for(resposta of respostas){
+        setTimeout(()=>clientInstance.sendText(usuario.telefone, resposta), timeBetween);
+        timeBetween += 1000;
+    }
+    //Timer não funciona para forçar o atraso entre as mensagens */
 }
 
 function verificaExistenciaUser(objMessage = ''){
@@ -79,7 +86,6 @@ function salvaUserBanco(user){
     axios
     .post('http://localhost:3000/usuarios', user)
     .then(res => {
-        console.log(res);
         user.setId(res.data._id);
     })
     .catch(error => {

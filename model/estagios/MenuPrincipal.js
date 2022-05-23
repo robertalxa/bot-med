@@ -16,30 +16,31 @@ module.exports = class MenuPrincipal {
         this.enderecoTemporario = {}
     }
 
-    responde(mensagem, usuario){
-        return this.listaFuncoes[this.progresso](mensagem, usuario);
+    responde(mensagem, usuario, venomInstance){
+        return this.listaFuncoes[this.progresso](mensagem, usuario, venomInstance);
     }
 
-    resposta(mensagem, usuario){
+    resposta(mensagem, usuario, venomInstance){
         if(usuario.apelido === ''){
-            return [['🤖 Olá eu sou o Remedinho 🤖\n\nMe diz por favor como você prefere que eu te chame.'], 1];
+            return [['🤖 Olá eu sou o Remedinho 🤖\n\nMe diz por favor como você prefere que eu te chame.\n(_Responda somente com o nome_)'], 1];
         }
-        const resultadoEndereco = this[1](mensagem, usuario);
+        const resultadoEndereco = this[1](mensagem, usuario, venomInstance);
         return [[`Olá eu sou o Remedinho 🤖\nBem vindx novamente ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
     }
 
-    resposta1(mensagem, usuario){
+    resposta1(mensagem, usuario, venomInstance){
         if(usuario.apelido === '') usuario.darApelido(mensagem.body.trim());
         if(JSON.stringify(usuario.endereco) === '{}'){
             return [[`${usuario.apelido}, para prosseguir, por favor nos *envie o CEP* de onde se encontra.\n\n_Fique tranquilo, só utilizamos essa informação para poder te mostrar quais medicamentos estão disponíveis em sua região_`], 2];
         }
 
         const endereco = usuario.endereco;
-        const textoEndereco = `O seu endereço ainda é *${endereco.rua}, ${endereco.rua}*\n? Responda com: *Sim* ou *Não*`;
+        this.enderecoTemporario = endereco;
+        const textoEndereco = `O seu endereço ainda é *${endereco.rua}, ${endereco.bairro} - ${endereco.cidadeEstado}*?\nResponda com: *Sim* ou *Não*`;
         return [[textoEndereco], 3];
     }
 
-    resposta2(mensagem, usuario){
+    resposta2(mensagem, usuario, venomInstance){
         const cepDigitado = mensagem.body.trim();
         const endereco = {};
         if(util.validaCEP(cepDigitado)){
@@ -53,7 +54,7 @@ module.exports = class MenuPrincipal {
         return [[`O cep que você digitou é inválido, por favor, tente novamente`], 2];
     }
 
-    resposta3(mensagem, usuario){
+    resposta3(mensagem, usuario, venomInstance){
         const textoMenu = 'Escolha uma opção do menu digitando o seu *número*:\n1️⃣ - Informações sobre medicamentos 💊\n2️⃣ - Informações sobre documentação 🪪\n3️⃣ - Programas (de distribuição) do governo ⛑️\n4️⃣ - Meus lembretes ⏰\n5️⃣ - Outras questões escritas (ou audio)\n6️⃣ - Saber mais sobre o Remedinho 🤖';
         const msg = mensagem.body.toLowerCase().trim();
         if(msg === 'sim'){
@@ -66,7 +67,7 @@ module.exports = class MenuPrincipal {
         return [['Desculpe não entendi, responda com *Sim* ou *Não*'], 3];
     }
 
-    exibeMenu(mensagem, usuario){
+    exibeMenu(mensagem, usuario, venomInstance){
         const numerosTranscritos = {
             'um': 1,
             'dois': 2,
