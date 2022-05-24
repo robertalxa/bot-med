@@ -25,19 +25,21 @@ module.exports = class MenuPrincipal {
             return [['🤖 Olá eu sou o Remedinho 🤖\n\nMe diz por favor como você prefere que eu te chame.\n(_Responda somente com o nome_)'], 1];
         }
         const resultadoEndereco = this[1](mensagem, usuario, venomInstance);
-        return [[`Olá eu sou o Remedinho 🤖\nBem vindx novamente ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
+        return [[`Olá eu sou o Remedinho 🤖\nBem vindo(a) novamente ${usuario.apelido}!\n\n${resultadoEndereco[0][0]}`], resultadoEndereco[1]];
     }
 
     resposta1(mensagem, usuario, venomInstance){
         if(usuario.apelido === '') usuario.darApelido(mensagem.body.trim());
-        if(JSON.stringify(usuario.endereco) === '{}'){
+        return this[3](mensagem, usuario, venomInstance);
+
+        /*if(JSON.stringify(usuario.endereco) === '{}'){
             return [[`${usuario.apelido}, para prosseguir, por favor nos *envie o CEP* de onde se encontra.\n\n_Fique tranquilo, só utilizamos essa informação para poder te mostrar quais medicamentos estão disponíveis em sua região_`], 2];
         }
-
+        
         const endereco = usuario.endereco;
         this.enderecoTemporario = endereco;
         const textoEndereco = `O seu endereço ainda é *${endereco.rua}, ${endereco.bairro} - ${endereco.cidadeEstado}*?\nResponda com: *Sim* ou *Não*`;
-        return [[textoEndereco], 3];
+        return [[textoEndereco], 3];*/
     }
 
     resposta2(mensagem, usuario, venomInstance){
@@ -56,7 +58,8 @@ module.exports = class MenuPrincipal {
 
     resposta3(mensagem, usuario, venomInstance){
         const textoMenu = 'Escolha uma opção do menu digitando o seu *número*:\n1️⃣ - Informações sobre medicamentos 💊\n2️⃣ - Informações sobre documentação 🪪\n3️⃣ - Programas (de distribuição) do governo ⛑️\n4️⃣ - Meus lembretes ⏰\n5️⃣ - Outras questões escritas (ou audio)\n6️⃣ - Saber mais sobre o Remedinho 🤖';
-        const msg = mensagem.body.toLowerCase().trim();
+        return [[`${textoMenu}`], 4];
+        /*const msg = mensagem.body.toLowerCase().trim();
         if(msg === 'sim'){
             usuario.setEndereco(this.enderecoTemporario);
             return [[`Endereço confirmado!\n\n${textoMenu}`], 4];
@@ -64,7 +67,7 @@ module.exports = class MenuPrincipal {
             return [['Por favor, digite novamente seu CEP.'], 2];
         }
 
-        return [['Desculpe não entendi, responda com *Sim* ou *Não*'], 3];
+        return [['Desculpe não entendi, responda com *Sim* ou *Não*'], 3];*/
     }
 
     exibeMenu(mensagem, usuario, venomInstance){
