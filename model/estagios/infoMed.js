@@ -39,7 +39,7 @@ module.exports = class InfoMed {
         let escolha = parseInt(msgEscolha);
         if(isNaN(escolha)){
             escolha = numerosTranscritos[msgEscolha];
-            if(!escolha) return [['Opção inválida, envie um *número de 1 a 4*'], 1];
+            if(!escolha) return [['⚠️ Opção inválida, envie um *número de 1 a 4*'], 1];
         }
 
         switch(escolha){
@@ -48,7 +48,7 @@ module.exports = class InfoMed {
             case 3: return [['Opção *3* selecionada.\nPor favor envie o nome do medicamento que deseja consultar os detalhes'], 4];
             case 4: this[5](mensagem, usuario, venomInstance); return [[], 1];
             case 'voltar': return [['Voltando...'], 'MenuPrincipal'];
-            default: return [['Opção inválida, envie um *número de 1 a 4*'], 1];
+            default: return [['⚠️ Opção inválida, envie um *número de 1 a 4*'], 1];
         }
     }
 

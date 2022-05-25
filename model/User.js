@@ -52,8 +52,15 @@ module.exports = class User {
             const novoEstagio = require(`./estagios/${progredir}`)
             this.estagio = new novoEstagio();
             [respostas, progredir] = this.estagio.responde(mensagem, this, venomInstance);
+            //me perdoem por isso
+            if(typeof progredir === 'string') {
+                //Trocando a pessoa de estágio
+                const novoEstagio = require(`./estagios/${progredir}`)
+                this.estagio = new novoEstagio();
+                [respostas, progredir] = this.estagio.responde(mensagem, this, venomInstance);
+            }
         }
-        
+
         this.estagio.progresso = progredir;
         return respostas;
     }

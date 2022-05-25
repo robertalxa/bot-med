@@ -57,7 +57,7 @@ module.exports = class MenuPrincipal {
     }
 
     resposta3(mensagem, usuario, venomInstance){
-        const textoMenu = 'Escolha uma opção do menu digitando o seu *número*:\n1️⃣ - Informações sobre medicamentos 💊\n2️⃣ - Informações sobre documentação 🪪\n3️⃣ - Programas (de distribuição) do governo ⛑️\n4️⃣ - Meus lembretes ⏰\n5️⃣ - Outras questões escritas (ou audio)\n6️⃣ - Saber mais sobre o Remedinho 🤖';
+        const textoMenu = 'Escolha uma opção do menu digitando o seu *número*:\n1️⃣ - Informações sobre *medicamentos* 💊\n2️⃣ - Quais *documentos* são necessários para a retirada de medicamentos  🪪\n3️⃣ - *Programas* (de distribuição) do governo ⛑️\n4️⃣ - *Top 10 perguntas* mais frequentes 🤔\n5️⃣ - Agendar *horário* em uma farmácia pública 🏥\n6️⃣ - Saber mais sobre o *Remedinho* 🤖\n7️⃣ - Meus *lembretes* ⏰';
         return [[`${textoMenu}`], 4];
         /*const msg = mensagem.body.toLowerCase().trim();
         if(msg === 'sim'){
@@ -77,22 +77,25 @@ module.exports = class MenuPrincipal {
             'tres': 3,
             'quatro': 4,
             'cinco': 5,
-            'seis': 6
+            'seis': 6,
+            'sete': 7
         }
         const msgEscolha = mensagem.body.trim().toLowerCase();
         let escolha = parseInt(msgEscolha);
         if(isNaN(escolha)){
             escolha = numerosTranscritos[msgEscolha];
-            if(!escolha) return [['Opção inválida, envie um número de 1 a 6'], 4];
+            if(!escolha) return [['⚠️ Opção inválida! Envie um número de 1 a 7'], 4];
         }
 
         switch(escolha){
-            case 1: return[['Opção escolhida: *Informações sobre medicamentos*'], 'infoMed'];
-            case 2: return[['Opção escolhida: *Informações sobre documentação*'], 'infoDoc'];
-            case 3: return[['Opção escolhida: *Programas (de distribuição) do governo*'], 'programasGov'];
-            case 4: return[['Opção escolhida: *Meus lembretes*'], 'lembretes'];
-            case 5: return[['Opção escolhida: *Outras questões escritas (ou audio)*'], 'outrasQuest'];
-            default: return [['Opção inválida, envie um número de 1 a 6'], 4];
+            case 1: return[['*Informações sobre medicamentos 💊*'], 'infoMed'];
+            case 2: return[['*Quais documentos são necessários para a retirada de medicamentos  🪪*'], 'infoDoc'];
+            case 3: return[['*Programas (de distribuição) do governo ⛑️*'], 'programasGov'];
+            case 4: return[['*Top 10 perguntas mais frequentes 🤔*'], 'topPerguntas'];
+            case 5: return[['*Marcar horário em uma farmácia pública 🏥*'], 'appGoverno'];
+            case 6: return[['*Saber mais sobre o Remedinho 🤖*'], 'saberRemedinho'];
+            case 7: return[['*Meus lembretes ⏰*'], 'lembretes'];
+            default: return [['⚠️ Opção inválida! Envie um número de 1 a 7'], 4];
         }
     }
 
