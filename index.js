@@ -35,6 +35,19 @@ function iniciaInteracao(clientInstance){
         let usuario = verificaExistenciaUser(message, clientInstance);
         responder(clientInstance, message, usuario);
     });
+    verificaLembretes(clientInstance);
+}
+
+function verificaLembretes(clientInstance){
+    //Loop para notificar sobre os lembretes cadastrados
+    setInterval(()=>{
+        for(let cliente of listaUsuarios){
+            for(lembrete of cliente.lembretes){
+                const msgLembrete = `🚨 Tenho um lembrete pra você! 🚨\n\n*${lembrete.descricao.toUpperCase()}*\n\n_caso queira desativar esse lembrete, acesse a opção 7 do menu principal_`;
+                clientInstance.sendText(cliente.telefone, msgLembrete);
+            }
+        }
+    },15000);
 }
 
 async function responder(clientInstance, mensagem, usuario){
