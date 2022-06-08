@@ -13,7 +13,7 @@ module.exports = class SaberRemedinho {
     }
 
     resposta(mensagem, usuario, venomInstance){
-        const msgRetorno = `O *Remedinho* 🤖 é um bot do whatsapp criado com muito amor para o projeto principal da matéria de Laboratório de Software e Projetos\n\nPara saber mais acesse: https://remedmais.netlify.app/`;
+        const msgRetorno = `O *Remedinho* 🤖 é um bot do WhatsApp criado com a finalidade de auxiliar pessoas a encontrar informações sobre programas de distribuição, medicamentos subsidiados pelo governo e documentação necessária para sua retirada.\n\nPara saber mais sobre o projeto, acesse: https://remedmais.netlify.app/`;
         venomInstance.sendText(usuario.telefone, msgRetorno);
         return [[], 'MenuPrincipal'];
     }
