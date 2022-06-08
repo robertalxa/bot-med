@@ -2,14 +2,6 @@ const venom = require('venom-bot');
 const User = require('./model/User');
 const axios = require('axios');
 
-const numsPermitidos = [
-    '5511941422161@c.us',
-    '5511945206557@c.us',
-    '5511983252522@c.us',
-    '5511985619621@c.us'
-]
-//'5511999173197@c.us'
-
 let listaUsuarios = [];
 let listaUsuariosBanco = [];
 
@@ -31,7 +23,6 @@ function acionaBot(){
 
 function iniciaInteracao(clientInstance){
     clientInstance.onMessage(message=>{
-        if(numsPermitidos.indexOf(message.from) === -1) return;
         let usuario = verificaExistenciaUser(message, clientInstance);
         responder(clientInstance, message, usuario);
     });
